@@ -43,7 +43,8 @@
     
     // update the mouse position
     window.addEventListener('mousemove', ev => mousePos = getMousePos(ev));
-    
+     window.addEventListener('touchmove', ev => mousePos = getMousePos(ev));
+    window.addEventListener('touchstart', ev => mousePos = getMousePos(ev));
     // gets the distance from the current mouse position to the last recorded mouse position
     const getMouseDistance = () => MathUtils.distance(mousePos.x,mousePos.y,lastMousePos.x,lastMousePos.y);
 
