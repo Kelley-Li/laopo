@@ -49,8 +49,6 @@
             posx = touch.clientX + body.scrollLeft + docEl.scrollLeft;
             posy = touch.clientY + body.scrollTop + docEl.scrollTop;
         }
-        console.log('111',posx,posy)
-
         return {x: posx, y: posy};
     }
 
@@ -122,7 +120,6 @@
         render() {
             // get distance between the current mouse position and the position of the previous image
             let distance = getMouseDistance();
-            console.log(distance)
             // cache previous mouse position
             cacheMousePos.x = MathUtils.lerp(cacheMousePos.x || mousePos.x, mousePos.x, 0.1);
             cacheMousePos.y = MathUtils.lerp(cacheMousePos.y || mousePos.y, mousePos.y, 0.1);
