@@ -4,7 +4,7 @@
 *
 * Licensed under the MIT license.
 * http://www.opensource.org/licenses/mit-license.php
-* 
+*
 * Copyright 2019, Codrops
 * http://www.codrops.com
 */
@@ -33,6 +33,24 @@
             posx = ev.clientX + body.scrollLeft + docEl.scrollLeft;
             posy = ev.clientY + body.scrollTop + docEl.scrollTop;
         }
+
+        return {x: posx, y: posy};
+    }
+    const getTouchmove = (ev) => {
+        let posx = 0;
+        let posy = 0;
+        if (!ev) ev = window.event;
+        let touch = ev.targetTouches[0]
+        if (touch.pageX || touch.pageY) {
+            posx = touch.pageX;
+            posy = touch.pageY;
+        }
+        else if (touch.clientX || touch.clientY) 	{
+            posx = touch.clientX + body.scrollLeft + docEl.scrollLeft;
+            posy = touch.clientY + body.scrollTop + docEl.scrollTop;
+        }
+        console.log('111',posx,posy)
+
         return {x: posx, y: posy};
     }
 
@@ -40,11 +58,12 @@
     // cacheMousePos: previous mouse position
     // lastMousePos: last last recorded mouse position (at the time the last image was shown)
     let mousePos = lastMousePos = cacheMousePos = {x: 0, y: 0};
-    
+
     // update the mouse position
     window.addEventListener('mousemove', ev => mousePos = getMousePos(ev));
-     window.addEventListener('touchmove', ev => mousePos = getMousePos(ev));
-    window.addEventListener('touchstart', ev => mousePos = getMousePos(ev));
+    window.addEventListener('touchmove', ev => mousePos = getTouchmove(ev));
+    window.addEventListener('touchstart', ev => mousePos = getTouchmove(ev));
+
     // gets the distance from the current mouse position to the last recorded mouse position
     const getMouseDistance = () => MathUtils.distance(mousePos.x,mousePos.y,lastMousePos.x,lastMousePos.y);
 
@@ -103,6 +122,7 @@
         render() {
             // get distance between the current mouse position and the position of the previous image
             let distance = getMouseDistance();
+            console.log(distance)
             // cache previous mouse position
             cacheMousePos.x = MathUtils.lerp(cacheMousePos.x || mousePos.x, mousePos.x, 0.1);
             cacheMousePos.y = MathUtils.lerp(cacheMousePos.y || mousePos.y, mousePos.y, 0.1);
@@ -113,7 +133,7 @@
 
                 ++this.zIndexVal;
                 this.imgPosition = this.imgPosition < this.imagesTotal-1 ? this.imgPosition+1 : 0;
-                
+
                 lastMousePos = mousePos;
             }
 
@@ -177,11 +197,11 @@
             imagesLoaded(document.querySelectorAll('.content__img'), resolve);
         });
     };
-    
+
     // And then..
     preloadImages().then(() => {
+        console.log('[[[')
         // Remove the loader
-        document.body.classList.remove('loading');
         new ImageTrail();
     });
 }
