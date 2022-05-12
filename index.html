@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--@author 一颗橘子树
+
+@date 2020/11/20
+
+@version v587 -->
+<head>
+    <meta charset="UTF-8">
+    <title>大转盘</title>
+</head>
+<style type="text/css">
+	ul{
+	    width: 650px;
+	    height: 690px;
+	    background: #fdfdfd;
+	    position: relative;
+	    border-radius: 50%;
+	    overflow: hidden;
+	    border: 10px solid #f2e1f0;
+	    box-shadow:0px 0px 10px #06e2ee;
+	}
+	li{
+	    display: inline-block;
+	    position: absolute;
+	    top: 280px;
+	    left: -24.5px;
+	    text-indent: -290px;
+
+
+	    font-size: 22px;
+	    line-height: 10px;
+	    width: 0px;
+	    height: 10px;
+
+		border-left: 340px solid red;
+	    border-top: 59px solid transparent;
+	    border-right: 400px solid transparent;
+	    border-bottom: 59px solid transparent;
+	    color: #FFFFFF;
+	}
+	.img{
+	    position: absolute;
+	    z-index: 100;
+	    top: 216px;
+	    left: 236px;
+	}
+	.tt{
+	    display: inline-block;
+	    color: black;
+	    font-weight: bold;
+	}
+</style>
+<body style="background-color: #ffbccd">
+
+<div><div style="width: 800px;height: 300px;font-size: 50px;text-align: center;color: #f6f6f6;padding-top: 150px;margin: auto">我要惩罚你🍊🍊🍊
+    <span class="tt"></span></div></div>
+<div>
+    <div style="margin: auto;width: 700px;">
+
+        <ul>
+            <div class="img"><img src="static/picture/v587v.png" alt="" width="220" height="220"></div>
+            <li>挨我一顿打</li>
+            <li>写520个我爱你</li>
+            <li> ⌨ 跪键盘</li>
+            <li>写道歉小作文</li>
+            <li>夸我20个词不重样</li>
+            <li> 😭 跪榴莲</li>
+            <li>带我吃一顿火锅</li>
+            <li>讲一个小故事</li>
+            <li>零食大礼包</li>
+            <li>挨我一顿打</li>
+            <li>写520个我爱你</li>
+            <li> ⌨ 跪键盘</li>
+            <li>写道歉小作文</li>
+            <li>夸我20个词不重样</li>
+            <li> 😭 跪榴莲</li>
+            <li>带我吃一顿火锅</li>
+            <li>讲一个小故事</li>
+            <li>零食大礼包</li>
+        </ul>
+    </div>
+</div>
+
+<script src="static/js/jquery-1.10.2.js"></script>
+<script type="text/javascript">
+	$(function () {
+	    var nums = new Array();          //存取每个li的旋转角度
+	    var num = 0;                     //旋转角度
+	    var r=0;
+		var g=0;
+		var b=0;
+	    $('ul li').each(function (i,ele) {
+	        nums.push(num);
+	        num+=20;                                     //设置每个li旋转角度
+	        r = Math.floor(Math.random()*19*10+60);      //生成随机颜色
+	        g = Math.floor(Math.random()*19*10+60);
+	        b = Math.floor(Math.random()*18*10+70);
+
+	        $(ele).css({transform: 'rotate('+num+'deg)'});
+	        $(ele).css({borderLeft: '340px solid rgba('+r+', '+g+', '+b+', 1)' });
+	    })
+
+
+	    //点击部分
+	    var overlotto;
+		var overTime;
+	    $('.img').click(function () {
+			$(this). css({ pointerEvents: 'none'})        //关闭按钮
+			var rTime = 40;  //随机生成转动时间
+			var p = 5;   //设置转动速度
+			var num = 0;  //记录当前调用次数1秒每次
+			overTime = setInterval(function(){
+				num++;
+				if(rTime-num <= 20){  //时间剩余8秒开始减速
+					p+=3;
+				}
+				clearInterval(overlotto);         //关闭上一次的转动，防止出现多个调用
+				overlotto = setInterval(lottorRotate,p);
+			},100)
+
+			setTimeout(function(){          //结束关闭所有时间函数
+				clearInterval(overTime);
+				clearInterval(overlotto);
+				$('.img'). css({ pointerEvents: 'auto'})   //开启按钮
+			},rTime*100)
+
+	    })
+
+
+	    //旋转部分
+	    function lottorRotate() {
+	        $('ul li').each(function (i,ele) {
+	            nums[i]+=5;
+	            if (nums[i] >= 360){
+	                nums[i] = 0;
+	            }
+	            var num = $(ele).css({transform: 'rotate('+nums[i]+'deg)'});
+	            if (nums[i] >= 79 && nums[i] <= 101){
+	                $('.tt').html("惩罚获得："+$('ul li:eq('+i+')').text()+"!")
+	            }
+
+	        })
+	    }
+	})
+</script>
+
+</body>
+</html>
